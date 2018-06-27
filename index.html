@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <title>Angular JS Class</title>
+    <link href="main.css" type="text/css"/>
+</head>
+<!--bootstraping-->
+<body ng-app="demo">
+<div ng-controller="internGrades">
+    <!--templating-->
+    <div class="tab">
+        <a href="#index" class="tablinks">Home Page</a>
+        <a href="#viewInterns" class="tablinks">View Interns</a>
+    </div>
+    <div>
+        <!--location where the two views will displayed through-->
+        <div ng-view></div>
+
+        <!--template index-->
+        <script type="text/ng-template" class="tab" id="index.html">
+            <h2> Home Page </h2>
+            Want to see magic, try typing:
+            <!--data binding-->
+            <input type="text" name="something" ng-model="something">
+            <br/><br/>
+            <!--expression-->
+            <p>{{something}}</p>
+            <hr>
+        </script>
+
+        <!--template interns-->
+        <script type="text/ng-template" class="tab" id="viewInterns.html">
+            <h2> View Interns </h2>
+            <table>
+                <thead>
+                <tr>
+                    <th colspan="4">Cytonn Interns 2018 List</th>
+                </tr>
+                </thead>
+                <br>
+                <tbody>
+                <tr>
+                    <td>#</td>
+                    <td>First Name</td>
+                    <td>Second Name</td>
+                    <td>Points</td>
+                    <td>Tribe</td>
+                </tr>
+                <!--filter implementation-->
+                <tr ng-repeat="intern in internList">
+                    <td>{{$index + 1}}</td>
+                    <td>{{intern.Intern.firstName | uppercase}}</td>
+                    <td>{{intern.Intern.lastName | lowercase}}</td>
+                    <td>{{intern.points}}</td>
+                    <td>{{intern.tribe}}</td>
+                </tr>
+                </tbody>
+            </table>
+            <hr>
+        </script>
+    </div>
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular-route.min.js"></script>
+<script>
+    // module implementation
+    var demoApp = angular.module("demo", ['ngRoute']);
+
+    // routeprovider service
+    demoApp.config(['$routeProvider', function ($routeProvider) {
+        $routeProvider.when('/viewInterns', {
+            templateUrl: 'viewInterns.html',
+        }).when('/index', {
+            templateUrl: 'index.html',
+        }).otherwise({
+            redirectTo: '/index'
+        });
+    }]);
+
+    // scope controller implementation
+    demoApp.controller('internGrades', function ($scope) {
+        $scope.internList = [
+            {
+                Intern: {
+                    firstName: 'Mukolwe',
+                    lastName: ' michael'
+                },
+                points: 322,
+                tribe: "Luhya"
+            },
+            {
+                Intern: {
+                    firstName: 'emanuell',
+                    lastName: ' Obama'
+                },
+                points: 400,
+                tribe: "Kikuyu"
+            },
+            {
+                Intern: {
+                    firstName: 'okoli',
+                    lastName: 'Joe'
+                },
+                points: 220,
+                tribe: "Mkamba"
+            },
+            {
+                Intern: {
+                    firstName: 'willian',
+                    lastName: 'Kevo'
+                },
+                points: 550,
+                tribe: "Tribeless"
+            }
+        ];
+    });
+</script>
+</body>
+</html>
